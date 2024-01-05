@@ -1,0 +1,26 @@
+name: Update starter_zip
+env:
+  env_text: ${{ secrets.AZURE_CODEFEVER_BLOB_STORAGE_CONNECTION_STRING }}
+on:
+  push:
+    branches:
+      - main
+jobs:
+  greeting_job:
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ env.env_text == '' }}
+        run: |
+          echo "Empty text"
+      - if: ${{ env.env_text != '' }}
+        run: |
+          echo "Text: '$env_text'"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: zip and upload
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_CODEFEVER_BLOB_STORAGE_CONNECTION_STRING }}
+        run: cd ./startcode && zip -r ./startcodeP1L1.zip . && az storage blob upload -f ./startcodeP1L1.zip -c \python-code -n startcodeP1L1.zip --connection-string ${{ secrets.AZURE_CODEFEVER_BLOB_STORAGE_CONNECTION_STRING }} --overwrite
