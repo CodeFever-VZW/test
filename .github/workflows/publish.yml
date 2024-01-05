@@ -16,4 +16,4 @@ jobs:
       - name: zip and upload
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_CODEFEVER_BLOB_STORAGE_CONNECTION_STRING }}
-        run: cd ./startcode && zip -r ./${{$ZIP_NAME}}.zip . && az storage blob upload -f ./${{$ZIP_NAME}}.zip -c \python-code -n ${{$ZIP_NAME}}.zip --overwrite
+        run: cd ./startcode && zip -r ./$ZIP_NAME.zip . && az storage blob upload -f ./$ZIP_NAME.zip -c \python-code -n $ZIP_NAME.zip --overwrite
